@@ -1,0 +1,15 @@
+{
+			"packageUrl" : "http://www.qianduoduo88.com/Public/download/gamechannel/res/version.lua",
+			"remoteManifestUrl" : "",
+			 "remoteVersionUrl" : "",
+			"newVersionUrl" : "",
+			"engineVersion" : "3.3",
+			"channel" : "Android",
+			 "bundle" : "20150514",
+			"version" : "1.0",
+			"svn" : "10002",
+			"forceDLMinVer" : "0",
+			"downloadUrl" : "",
+			"testing":"1215"
+
+}
