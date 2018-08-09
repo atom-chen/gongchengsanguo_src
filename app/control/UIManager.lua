@@ -69,6 +69,8 @@ function UIManager:addUI(param,...)
         Logger:throwError("uiName 为空，请查看堆栈")
     end 
 
+    if uiName == Config_UI.CONNECTING.name then 
+    end 
 
 end
 
