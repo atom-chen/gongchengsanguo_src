@@ -154,6 +154,7 @@ function MainScene:onEnter()
     require "app.utils.CUtil"
     require "app.control.Logger"
     require "app.control.GameGlobal" -- 写到了这里
+    require "app.control.MultiVersionUIHelper"
 
     
      
