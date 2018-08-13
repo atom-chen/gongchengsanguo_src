@@ -81,7 +81,7 @@ function UIManager:addUI(param,...)
 --        end 
         if UIManager.connectingCacheLogic then 
             UIManager.connectingCacheLogic:dispose() -- 如果已经存在了logic则删除掉
-            UIManager.connectingCacheLogic = nil 
+            UIManager.connectingCacheLogic = nil   
         end 
 
         UIManager.connectingCache = UIManager:getNodeFromLua(Config_UI.CONNECTING.view)
@@ -100,8 +100,7 @@ function UIManager:addUI(param,...)
 
     end
 
-    EventManager:addEvent(UIManager,GameGlobal,"sssss",cb)
-    EventManager:removeEvent(UIManager,GameGlobal,"sssss",cb)
+   
     --如果正在切换场景，则先放到cache 然后再加载
     if GameGlobal.repalcingScene then 
         if not  UIManager.switchingSceneAddUIQueue then 
