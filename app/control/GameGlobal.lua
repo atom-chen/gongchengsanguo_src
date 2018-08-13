@@ -72,4 +72,20 @@ function GameGlobal:checkDeviceIsLowend()
     local luaj = require "luaj"
 end
 
+
+function GameGlobal:checkObjectIsNull(obj)
+    if not obj then 
+        return false 
+    end 
+    --查看传进来是不是一个c++对象
+    if type(obj) ~= "userdata" then 
+        return false
+    end 
+    --这个应该是一个 tolua的绑定
+    if tolua.isnull(obj) then 
+        return true
+    end 
+    return false
+end
+
 return GameGlobal

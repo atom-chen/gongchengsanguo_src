@@ -11,6 +11,8 @@ cc.exports.UIManager = cc.exports.UIManager or  {}
 ]]
 --局部变量
 local private = {}
+UIManager.connectingCache = nil 
+UIManager.connectingCacheLogic = nil 
 function UIManager:reset()
      private.list = {}--列表
      private.logicList = {}--logic列表
@@ -69,10 +71,38 @@ function UIManager:addUI(param,...)
         Logger:throwError("uiName 为空，请查看堆栈")
     end 
 
-    if uiName == Config_UI.CONNECTING.name then --如果是CONNECTING 则
-        
-    end 
+  
+    if uiName == Config_UI.CONNECTING.name then 
+        --如果connectingCache 不为空， 则把connectingCache做处理
+        if not GameGlobal:checkObjectIsNull(UIManager.connectingCache) then 
+            Logger:out("就要移除："..uiName)
+            UIManager.connectingCache:removeFromParent()
+            UIManager.connectingCache = nil 
+        end 
+        if UIManager.connectingCacheLogic then 
+            UIManager.connectingCacheLogic:dispose() -- 如果已经存在了logic则删除掉
+            UIManager.connectingCacheLogic = nil 
+        end 
 
+        UIManager.connectingCache = UIManager:getNodeFromLua(Config_UI.CONNECTING.view)
+        UIManager.connectingCache:setName(Config_UI.CONNECTING.name)
+
+        local scene = cc.Director:getInstance():getRunningScene() --获取到当前的Scene
+ 
+    end 
+     
+end
+
+--[[
+    从lua中获取node
+]]
+function UIManager:getNodeFromLua(path)
+    if not GameGlobal:checkFileExist(path) then 
+        return nil   -- 当前没有这个文件
+    end 
+    local node  = require(path):create()
+    MultiVersionUIHelper:checkLuaView(path,node)
+    return node
 end
 
 return UIManager
