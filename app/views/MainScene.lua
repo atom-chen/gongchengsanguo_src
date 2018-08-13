@@ -156,8 +156,8 @@ function MainScene:onEnter()
     require "app.control.GameGlobal" -- 写到了这里
     require "app.control.MultiVersionUIHelper"
 
-    
-     
+
+   
     GameGlobal:init()
 
    

@@ -44,6 +44,6 @@ require("data.manual.Config_Sys")
 --require("app.script.NewBieScript")
 --require("app.control.DamageCalculator")
 --require("app.utils.MapUtil")
---require("app.control.EventManager");
+require("app.control.EventManager");
 --require("app.event.StateEvent")
 --shader = require("app.sprite.Shaders"):create();

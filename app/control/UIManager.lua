@@ -74,11 +74,11 @@ function UIManager:addUI(param,...)
   
     if uiName == Config_UI.CONNECTING.name then 
         --如果connectingCache 不为空， 则把connectingCache做处理
-        if not GameGlobal:checkObjectIsNull(UIManager.connectingCache) then 
-            Logger:out("就要移除："..uiName)
-            UIManager.connectingCache:removeFromParent()
-            UIManager.connectingCache = nil 
-        end 
+--        if not GameGlobal:checkObjectIsNull(UIManager.connectingCache) then 
+--            Logger:out("就要移除："..uiName)
+--            UIManager.connectingCache:removeFromParent()
+--            UIManager.connectingCache = nil 
+--        end 
         if UIManager.connectingCacheLogic then 
             UIManager.connectingCacheLogic:dispose() -- 如果已经存在了logic则删除掉
             UIManager.connectingCacheLogic = nil 
@@ -86,11 +86,88 @@ function UIManager:addUI(param,...)
 
         UIManager.connectingCache = UIManager:getNodeFromLua(Config_UI.CONNECTING.view)
         UIManager.connectingCache:setName(Config_UI.CONNECTING.name)
+        
+        local scene = cc.Director:getInstance():getRunningScene()
+        scene:addChild(UIManager.connectingCache)
+        local logic = require("app.uiLogic."..Config_UI.CONNECTING.name)
+        UIManager.connectingCache:setPosition(UIManager.rightShiftPx,UIManager.upperShiftPy)
+        UIManager.connectingCacheLogic = logic:create(UIManager.connectingCache,nil)
 
-        local scene = cc.Director:getInstance():getRunningScene() --获取到当前的Scene
- 
+        return     
     end 
-     
+
+    local function cb()
+
+    end
+
+    EventManager:addEvent(UIManager,GameGlobal,"sssss",cb)
+    EventManager:removeEvent(UIManager,GameGlobal,"sssss",cb)
+    --如果正在切换场景，则先放到cache 然后再加载
+    if GameGlobal.repalcingScene then 
+        if not  UIManager.switchingSceneAddUIQueue then 
+            UIManager.switchingSceneAddUIQueue = {}
+        end 
+        table.insert(UIManager.switchingSceneAddUIQueue,{layer = layer,uiName = uiName,res = res,logicParam = logicParam,backFun = backFun,showLoadingUI=showLoadingUI,zorder = zorder,needReload = needReload})
+        --等到switchingSceneAddUIQueue没有，再去
+        local function continueLoad(args)
+            EventManager:removeEvent(UIManager,GameGlobal,require("app.event.GameGlobalEvent").SWITCHSCENECOMPLETED)
+            if not UIManager.switchingSceneAddUIQueue or #UIManager.switchingSceneAddUIQueue then return end 
+            for i = 1, #UIManager.switchingSceneAddUIQueue do
+                local tmp = UIManager.switchingSceneAddUIQueue[i]
+                UIManager:addUI(tmp)
+            end
+            UIManager.switchingSceneAddUIQueue = nil 
+        end
+
+        EventManager:addEvent(UIManager,GameGlobal,require("app.event.GameGlobalEvent"),continueLoad)
+        return 
+    end 
+    if GameGlobal.ActivityProxy.showingNewIcon then 
+        table.insert(GameGlobal.ActivityProxy.addNewUI,param)
+        return 
+    end 
+
+    if Config_UI[uiName] and Config_UI[uiName].showLoading then 
+        showLoadingUI = Config_UI[uiName].showLoading
+    end 
+
+    if private.loading then 
+        local temp = param
+        table.insert(private.queue,temp)    
+        return 
+    end 
+    
+--    if not showLoadingUI then showLoadingUI = false end 
+--    if not layer or Config_UI.LOADING.name then 
+--        private.loading = false
+--        private:loadNext()
+--        return 
+--    end
+
+    if not private.logicList[layer] then 
+        private.logicList[layer] = {}
+    end
+    private.needToRemoveUINames[uiName] = nil 
+    if private.loadingManager then
+        private.loadingManager:dispose()
+        private.loadingManager = nil  
+    end        
+    private.loadingManager = require("app.control.LoadingManager"):create()
+end
+
+
+function private:loadNext()
+    if table.maxn(private.queue) == 0 then
+        if GameGlobal:checkObjectIsNull(UIManager.loadingNode) then 
+            UIManager.loadingNode:removeFromParent()
+        end  
+        UIManager.loadingNode = nil 
+        return 
+    end 
+
+    local curItem = private.queue[1]
+    table.remove(private.queue,1)
+    UIManager:addUI(curItem)
 end
 
 --[[
