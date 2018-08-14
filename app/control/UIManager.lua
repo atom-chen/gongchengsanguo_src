@@ -86,11 +86,11 @@ function UIManager:addUI(param,...)
   
     if uiName == Config_UI.CONNECTING.name then 
         --如果connectingCache 不为空， 则把connectingCache做处理
---        if not GameGlobal:checkObjectIsNull(UIManager.connectingCache) then 
---            Logger:out("就要移除："..uiName)
---            UIManager.connectingCache:removeFromParent()
---            UIManager.connectingCache = nil 
---        end 
+        if not GameGlobal:checkObjectIsNull(UIManager.connectingCache) then 
+            Logger:out("就要移除："..uiName)
+            UIManager.connectingCache:removeFromParent()
+            UIManager.connectingCache = nil 
+        end 
         if UIManager.connectingCacheLogic then 
             UIManager.connectingCacheLogic:dispose() -- 如果已经存在了logic则删除掉
             UIManager.connectingCacheLogic = nil 
@@ -111,9 +111,7 @@ function UIManager:addUI(param,...)
     local function cb()
 
     end
-
-    EventManager:addEvent(UIManager,GameGlobal,"sssss",cb)
-    EventManager:removeEvent(UIManager,GameGlobal,"sssss",cb)
+     
     --如果正在切换场景，则先放到cache 然后再加载
     if GameGlobal.repalcingScene then 
         if not  UIManager.switchingSceneAddUIQueue then 

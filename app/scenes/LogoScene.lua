@@ -30,7 +30,7 @@ end
 
 
 function LogoScene:onEnter()
-
+    GameGlobal:getResourceManager():purgeCacheDataUseEngine()
 end
 
 function LogoScene:onExist()

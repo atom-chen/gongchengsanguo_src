@@ -163,7 +163,7 @@ function LoadingManager:loadPnlForWindows()
         end 
         self:loadNext(delay)
     end;
-
+     
     if texture then 
         dispatchCompletedAndLoadNext(false)
         return 

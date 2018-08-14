@@ -117,7 +117,12 @@ function ResourceManager:removeFrameFromFrameCacheList(sceneName,texplist)
 end
 
 function ResourceManager:removeTexFromTextureCacheList(sceneName,texName)
+ 
+end
 
+
+function ResourceManager:purgeCacheDataUseEngine(cacheinfo,sceneName)   
+    
 end
 
 return cc.exports.ResourceManager
