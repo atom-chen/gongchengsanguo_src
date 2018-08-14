@@ -33,7 +33,19 @@ function UIManager:reset()
      UIManager.nodeCache = nil 
 end
 
+function private:loadNext()
+    if table.maxn(private.queue) == 0 then
+        if GameGlobal:checkObjectIsNull(UIManager.loadingNode) then 
+            UIManager.loadingNode:removeFromParent()
+        end  
+        UIManager.loadingNode = nil 
+        return 
+    end 
 
+    local curItem = private.queue[1]
+    table.remove(private.queue,1)
+    UIManager:addUI(curItem)
+end
 
 function UIManager:addUI(param,...)
     if type(param) ~= "table" then 
@@ -153,22 +165,49 @@ function UIManager:addUI(param,...)
         private.loadingManager = nil  
     end        
     private.loadingManager = require("app.control.LoadingManager"):create()
+    local uiConfig = Config_UI[uiName]
+    if private.list[layer] and private.list[layer][uiName] then 
+        if needReload == 1 then 
+            UIManager:removeUI(layer,uiName,nil,true)
+        end 
+    end  
+
+    local function doCreate()
+        
+    end;
+
+    local function progressCallBack()
+
+    end;
+    local function allCompletedCallBack()
+
+    end;
+
+    private.loading = true 
+    private.loadingManager:startLoad(progressCallBack,allCompletedCallBack )
+
 end
 
 
-function private:loadNext()
-    if table.maxn(private.queue) == 0 then
-        if GameGlobal:checkObjectIsNull(UIManager.loadingNode) then 
-            UIManager.loadingNode:removeFromParent()
-        end  
-        UIManager.loadingNode = nil 
-        return 
+function UIManager:removeUI(layer,uiName,DoNotRemoveChild,noAction)
+    if not  private.list then return end 
+    if not layer then 
+        for k,v in  pairs(private.list) do 
+            for o,p in pairs(v) do 
+                if o == uiName then 
+                   layer = k 
+                   break 
+                end 
+            end 
+            if layer then break end 
+        end 
+        if not layer then 
+            Logger:out("找不到"..uiName.."的layer")
+        end 
     end 
-
-    local curItem = private.queue[1]
-    table.remove(private.queue,1)
-    UIManager:addUI(curItem)
 end
+
+
 
 --[[
     从lua中获取node

@@ -12,8 +12,9 @@ function MainScene:onCreate()
     -- add HelloWorld label
     cc.Label:createWithSystemFont("这个是测试", "Arial", 40)
         :move(display.cx, display.cy + 200)
+        :enableOutline(cc.c4b(20,20,20,200))
         :addTo(self)
-
+   
 end
 
 function MainScene:reloadLuaFiles()
@@ -160,8 +161,21 @@ function MainScene:onEnter()
    
     GameGlobal:init()
 
-   
-   
+    local function cb()
+        local scene = require "app.scene.LogoScene"
+        local logoScene = scene:create()
+        if cc.Director:getInstance():getRunningScene() then 
+            cc.Director:getInstance():replaceScene(logoScene)
+        else 
+            cc.Director:getInstance():runWithScene(logoScene)
+        end 
+    end
+
+    GameGlobal:getResourceManager():setCurScene(GameGlobal:getResourceManager().sceneNametbl.LOGOSCENE)
+    local loadingManager = require("app.control.LoadingManager"):create()
+    loadingManager:addPnl("ui/loading/loading.pnl",cb)
+    loadingManager:startLoad()
+     
 end
 
 return MainScene

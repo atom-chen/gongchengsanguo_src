@@ -50,6 +50,7 @@ ResourceManager.ConstTextTblInMemory ={
         "ui/icons/icons.png",
 }
 
+local typeConst = require "app.const.Const_LoadingItemType"
 function ResourceManager:setCurScene(sceneName)
     self.curScene = sceneName
 end
@@ -68,5 +69,55 @@ function ResourceManager:isConstInMemory(textOrlist)
     return false
 end
 
+
+function ResourceManager:getTypeByPath(path)
+    local tmp = StringUtil:split(path,".")
+    local pngPath = nil 
+    local plistPath = nil 
+    if tmp[2] == typeConst.PNG then 
+        pngPath = tmp[1] .. ".png"
+        plistPath = tmp[1] .. ".plist"
+    elseif tmp[2] == typeConst.JPG then 
+        pngPath = tmp[1] .. ".jpg"
+        plistPath = tmp[1] .. ".plist"
+    elseif tmp[2] == typeConst.PNL then 
+        pngPath = tmp[1] .. ".png"
+        plistPath = tmp[1] .. ".plist"
+    elseif tmp[2] == typeConst.MP3 then 
+        pngPath = tmp[1] .. ".mp3"
+        plistPath = nil 
+    end 
+    return pngPath,plistPath
+end
+
+--------------------------------------y这里是它的纹理管理
+function ResourceManager:addTextureCacheList(sceneName,texName)
+    if not ResourceManager.curAnimationCacheList[sceneName] then 
+        ResourceManager.curAnimationCacheList[sceneName] = {}
+    end 
+    ResourceManager.curAnimationCacheList[sceneName][texName] = texName
+end
+
+--清除缓存数据   purge--清除   purage --粪便
+function ResourceManager:purgeCacheData(cacheinfo,sceneName)
+    local tmp  = StringUtil:split(cacheinfo,".")
+    local pngPath = tmp[1] .. ".png"
+    local plistPath  = tmp[1] .. ".plist"
+    local sn  = sceneName 
+    if not  sceneName  then 
+        sn = ResourceManager:getCurScene()
+    end 
+    ResourceManager:removeFrameFromFrameCacheList(sn,plistPath)
+    ResourceManager:removeTexFromTextureCacheList(sn,pngPath)
+end
+
+
+function ResourceManager:removeFrameFromFrameCacheList(args)
+
+end
+
+function ResourceManager:removeTexFromTextureCacheList(args)
+
+end
 
 return cc.exports.ResourceManager

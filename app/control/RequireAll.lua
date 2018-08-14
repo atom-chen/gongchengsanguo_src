@@ -28,7 +28,7 @@ require("app.const.Const_YuanInfo");
 --require("data.RequireAllConfig");--此句用于导入所有由Excel导出的lua配置文件
 
 ---------以下配置文件并不是由excel表导出的，需要手动添加
---require("data.manual.Config_SpriteData")
+require("data.manual.Config_SpriteData")
 --require("data.manual.Config_Spine");
 require("data.manual.Config_UI")
 require("data.manual.Config_Sys")

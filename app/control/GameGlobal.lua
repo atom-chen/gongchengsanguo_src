@@ -116,4 +116,9 @@ function GameGlobal:checkFileExist(path)
     return exist
 end
 
+
+function GameGlobal:getResourceManager(args)
+    return GameGlobal.ResourceManager
+end
+
 return GameGlobal
