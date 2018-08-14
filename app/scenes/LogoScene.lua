@@ -14,21 +14,26 @@ function LogoScene:ctor(...)
 end
 
 function LogoScene:create()
-    local logoScene  = logoScene:new()
+    local logoScene  = LogoScene:new()
     self:showUI()
     return logoScene
 end
 
-function logoScene:showUI()
-    
+function LogoScene:showUI()
+    GameGlobal:getResourceManager():setCurScene( GameGlobal:getResourceManager().sceneNametbl.LOGOSCENE)
+    local param = {
+        layer = self,
+        uiName = Config_UI.LOGO.name,
+    };
+    UIManager:addUI(param);
 end
 
 
-function logoScene:onEnter()
+function LogoScene:onEnter()
 
 end
 
-function logoScene:onExist()
+function LogoScene:onExist()
     GameGlobal:getResourceManager():purgeCacheData("ui/logo/logo.pnl")
 end
 

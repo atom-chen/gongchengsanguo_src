@@ -176,7 +176,6 @@ function LoadingManager:loadPnlForWindows()
             return 
         end 
         cc.SpriteFrameCache:getInstance():addSpriteFrames(plistPath,texture)
-        dispatchCompletedAndLoadNext()
     end)
 
 end

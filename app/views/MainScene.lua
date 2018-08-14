@@ -162,7 +162,7 @@ function MainScene:onEnter()
     GameGlobal:init()
 
     local function cb()
-        local scene = require "app.scene.LogoScene"
+        local scene = require "app.scenes.LogoScene"
         local logoScene = scene:create()
         if cc.Director:getInstance():getRunningScene() then 
             cc.Director:getInstance():replaceScene(logoScene)

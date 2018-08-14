@@ -112,11 +112,11 @@ function ResourceManager:purgeCacheData(cacheinfo,sceneName)
 end
 
 
-function ResourceManager:removeFrameFromFrameCacheList(args)
+function ResourceManager:removeFrameFromFrameCacheList(sceneName,texplist)
 
 end
 
-function ResourceManager:removeTexFromTextureCacheList(args)
+function ResourceManager:removeTexFromTextureCacheList(sceneName,texName)
 
 end
 
