@@ -251,6 +251,72 @@ function LoadingManager:addPnl(pngPath,completedCallBack,...)
     local args = {...}
     local loadingItem = require("app.control.LoadingItem"):create(Const_LoadingItemType.PNL,pngPath,completedCallBack,args)
     table.insert(self.list,table.maxn(self.list)+1 ,loadingItem)
+    return loadingItem
 end
 
+
+function LoadingManager:addPng(pngPath, completedCallBack,...)
+    local arg={...} 
+    local path = pngPath;  
+    local loadingItem = require("app.control.LoadingItem"):create(require("app.const.Const_LoadingItemType").PNG,path,completedCallBack, arg);            
+    table.insert(self.list,table.maxn(self.list) + 1,loadingItem)
+    return loadingItem;
+end
+
+function LoadingManager:addByArray(arr)
+    require("app.utils.StringUtil");
+    local tmp;
+    local type;
+    local path;
+    local typeConst; 
+    local allFromCache = true;
+    for k, v in pairs(arr) do
+        tmp = StringUtil:split(v,".")
+        path = tmp[1];
+        type = tmp[2];
+        typeConst = require("app.const.Const_LoadingItemType");
+        if type == typeConst.SPR then
+            local tar = self:addSprite(path);
+            local id = tar.id;
+            local data = require("data.manual.Config_SpriteData")[tonumber(id)];
+            if data ~= nil then
+                local modelName = data.modelName;
+                local path = "spriteTexture/" .. modelName .. ".png";
+                 Logger:out("checking path is in Cache-path:",path)
+                --缓存内没有
+                if not cc.AnimationCache:getInstance():getAnimation(modelName .. "_" .. require("app.const.Const_Action").IDLE .. "_" ..  require("app.const.Const_Dir").DOWNRIGHT) then
+                    Logger:out("the path is not in Cache:",path)
+                    allFromCache = false;
+                end
+            end
+        elseif type == typeConst.MP3 then
+            local tar = self:addMp3(v)
+        elseif type == typeConst.PNG or type == typeConst.JPG then
+            local tar = self:addPng(v);
+            local path = tar.path;
+            Logger:out("checking path is in Cache-path:",path)
+            --外部逻辑请用以下方法调用。用这种方法调用的，在不需要这个texture时，记得清除掉缓存：
+            local texture = cc.Director:getInstance():getTextureCache():getTextureForKey(path)
+            if not texture then
+                Logger:out("the path is not in Cache:",path)
+                allFromCache = false;
+            end
+        elseif type == typeConst.PNL then
+            local tar = self:addPnl(v)                                            
+            local path = tar.path;
+            local tmp = StringUtil:split(path,".");
+            local pngPath = tmp[1] .. ".png";
+
+          
+            Logger:out("checking path is in Cache-path:",pngPath)
+            ---------------------------------------------
+            local texture = cc.Director:getInstance():getTextureCache():getTextureForKey(pngPath)
+            if not texture then
+                Logger:out("the path is not in Cache:",pngPath)
+                allFromCache = false;
+            end
+        end
+    end    
+    return allFromCache;
+end
 return LoadingManager

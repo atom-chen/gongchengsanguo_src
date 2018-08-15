@@ -20,12 +20,15 @@ function LogoScene:create()
 end
 
 function LogoScene:showUI()
-    GameGlobal:getResourceManager():setCurScene( GameGlobal:getResourceManager().sceneNametbl.LOGOSCENE)
     local param = {
         layer = self,
         uiName = Config_UI.LOGO.name,
     };
-    UIManager:addUI(param);
+    --UIManager:addUI(param);
+
+    self.layer = display.newLayer("aaaaa")
+    self:addChild(layer)
+ 
 end
 
 

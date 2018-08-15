@@ -52,9 +52,7 @@ function GameGlobal:init()
     --GameGlobal.gameSocket = require("app.control.GameSocket"):create()--socket管理模块
     GameGlobal.loginProxy = require("app.proxy.LoginProxy"):create() --登陆模块
     GameGlobal.ActivityProxy = require("app.proxy.ActivityProxy"):create() -- 活动模块
-
-    UIManager:addUI(cc.Director:getInstance():getRunningScene(),Config_UI.LOGO.name)
-    
+     
 
 end
 

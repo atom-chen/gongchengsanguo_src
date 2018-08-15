@@ -150,7 +150,7 @@ function MainScene:onEnter()
             return mathCeil(tmp)
         end 
     end 
-
+    require "app.utils.TableUtil"
     require "app.utils.MathUtil"
     require "app.utils.CUtil"
     require "app.control.Logger"
@@ -171,7 +171,10 @@ function MainScene:onEnter()
         end 
     end
 
-    GameGlobal:getResourceManager():setCurScene(GameGlobal:getResourceManager().sceneNametbl.LOGOSCENE)
+
+ 
+
+    GameGlobal:getResourceManager():setCurScene(GameGlobal:getResourceManager().sceneNametbl.MAINSCENE)
     local loadingManager = require("app.control.LoadingManager"):create()
     loadingManager:addPnl("ui/loading/loading.pnl",cb)
     loadingManager:startLoad()

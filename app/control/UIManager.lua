@@ -62,7 +62,7 @@ function UIManager:addUI(param,...)
             needReload = args[7], 
             trigger = args[8]
         }
-        local paramsss = param
+        local params = param
     end 
     local layer = param.layer
     local uiName = param.uiName

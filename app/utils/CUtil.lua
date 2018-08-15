@@ -11,8 +11,8 @@ local aStarForC = require("data.manual.Config_Sys").aStarForC
  
 function CUtil:getSystemTime()
     --返回1970年到目前为止的毫秒数
-    return ccext.GameUtil:getSystemTime();
-    --return os.clock();      
+    --return ccext.GameUtil:getSystemTime();
+    return os.time()    
 end
 
 -- function CUtil:astarFind(map, startPt, endPt, extBlock, fourDir)
