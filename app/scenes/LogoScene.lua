@@ -10,12 +10,11 @@ local LogoScene = class("LogoScene",function ()
 end)
 function LogoScene:ctor(...)
     self.uiLayer = nil 
-    self.sceneName = "LogoScene"
-end
+    self.sceneName = "LogoScene"end
 
 function LogoScene:create()
     local logoScene  = LogoScene:new()
-    self:showUI()
+    logoScene:showUI()
     return logoScene
 end
 
@@ -24,12 +23,10 @@ function LogoScene:showUI()
         layer = self,
         uiName = Config_UI.LOGO.name,
     };
-    --UIManager:addUI(param);
-
-    self.layer = display.newLayer("aaaaa")
-    self:addChild(layer)
+    UIManager:addUI(param);
  
-end
+                     
+ end
 
 
 function LogoScene:onEnter()

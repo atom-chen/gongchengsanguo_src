@@ -24,6 +24,20 @@ THE SOFTWARE.
 
 local Node = cc.Node
 
+
+function Node:removeAllNodeEventListeners()
+    if not flagNodeTouchInCocos then
+        tolua.getcfunction(self, "removeAllNodeEventListeners")(self)
+        return
+    end
+
+    self:removeNodeEventListenersByEvent(c.NODE_EVENT)
+    self:removeNodeEventListenersByEvent(c.NODE_ENTER_FRAME_EVENT)
+    self:removeNodeEventListenersByEvent(c.NODE_TOUCH_EVENT)
+    self:removeNodeEventListenersByEvent(c.NODE_TOUCH_CAPTURE_EVENT)
+    self:removeNodeEventListenersByEvent(c.KEYPAD_EVENT)
+end
+
 function Node:add(child, zorder, tag)
     if tag then
         self:addChild(child, zorder, tag)

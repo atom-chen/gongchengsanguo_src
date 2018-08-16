@@ -115,7 +115,7 @@ function LoadingManager:loadNext(delayLoad)
         end 
     end
 
-    self.loadingTicker = cc.Director:getInstance():getScheduler():scheduleScriptFunc(tryLoad,4,false)
+    self.loadingTicker = cc.Director:getInstance():getScheduler():scheduleScriptFunc(tryLoad,1,false)
     tryLoad()
 end
 
@@ -319,4 +319,9 @@ function LoadingManager:addByArray(arr)
     end    
     return allFromCache;
 end
+
+function LoadingManager:dispose()
+    self:reset()
+end
+ 
 return LoadingManager

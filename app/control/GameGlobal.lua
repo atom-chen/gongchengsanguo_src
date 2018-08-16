@@ -72,9 +72,9 @@ function GameGlobal:checkDeviceIsLowend()
 end
 
 
-function GameGlobal:checkObjectIsNull(obj)
-    if not obj then 
-        return false 
+function GameGlobal:checkObjIsNull(obj)
+    if  obj == nil  then 
+        return true 
     end 
     --查看传进来是不是一个c++对象
     if type(obj) ~= "userdata" then 

@@ -14,7 +14,6 @@ function MainScene:onCreate()
         :move(display.cx, display.cy + 200)
         :enableOutline(cc.c4b(20,20,20,200))
         :addTo(self)
-   
 end
 
 function MainScene:reloadLuaFiles()

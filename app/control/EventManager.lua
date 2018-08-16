@@ -53,6 +53,10 @@ function EventManager:removeEvent(listener,target,event)
     end 
     
 end
+
+function EventManager:removeEvents(listener, target)
+    
+end
 function EventManager:sendEvent(tar,event,param)
     
 end
