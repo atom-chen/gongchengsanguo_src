@@ -1,21 +1,6 @@
 require "app.resCheck"
 local MainScene = class("MainScene", cc.load("mvc").ViewBase)
 
- 
-
-function MainScene:onCreate()
-    -- add background image
-    display.newSprite("HelloWorld.png")
-        :move(display.center)
-        :addTo(self)
-
-    -- add HelloWorld label
-    cc.Label:createWithSystemFont("这个是测试", "Arial", 40)
-        :move(display.cx, display.cy + 200)
-        :enableOutline(cc.c4b(20,20,20,200))
-        :addTo(self)
-end
-
 function MainScene:reloadLuaFiles()
     local already_files = package.loaded
     for k,v in pairs(already_files) do 
